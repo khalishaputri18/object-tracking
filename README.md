@@ -4,6 +4,11 @@ Install ultralytics
 pip install ultralytics
 ```
 
+Install deep-sort-realtime if you want to use deepsort
+```
+pip install deep-sort-realtime
+```
+
 ## How to run
 
 ### Frame-track
