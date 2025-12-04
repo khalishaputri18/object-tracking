@@ -1,81 +1,46 @@
-## Requirements
-Install ultralytics
+# Object and Frame Tracking
+## Description
+This project consists of:
+1. **Multi-Object Trackers (Bytetrack, Botsort, Deepsort, Strongsort)**
+   
+   **Goal:** Track every individual object separately
+
+   **Behavior:** If there are 5 people in the frame, the code assigns 5 unique IDs (e.g., Person 1, Person 2, Person 3...).
+   
+3. **Frame Tracker (Gap)**
+   
+   **Goal:** Track "Events" or "Appearances" of a class, not individual objects.
+   
+   **Behavior:** If there are 5 people in the frame, they all get the same ID (e.g., "Event 1"). The ID only increases if the object disappears for a specific time `--gap` and then reappears (starting "Event 2").
+   
+
+## How to use this project
+### 1. Installation
 ```
-pip install ultralytics
+pip install -r requirements.txt
+```
+### 2. Arguments
+Core arguments details:
+1. `--algo` = (**str**) Tracking algorithm to use ('botsort', 'bytetrack', 'deepsort', 'strongsort', or 'gap')
+2. `--source` = (**str**) Path to video or 0 for webcam
+
+Optional argument details:
+1. `--model` = (**str**) Path to .pt model
+2. `--conf` = (**float**) Confidence threshold
+3. `--classes` = (**int**) Filter by class ID (e.g. 0 1)
+4. `--nosave` = Do not save output video
+5. `--show` = Show processing window
+6. `--draw-trails` = Draw trajectory
+
+Gap specific argument:
+1. `--gap` = (**float**) Time gap (seconds)
+
+### 3. How to run
+Command example for object tracker:
+```
+python main.py --algo bytetrack --source my_video.mp4 --conf 0.5 --classes 0 1 2
 ```
 
-Install deep-sort-realtime if you want to use deepsort
+Command example for frame tracker:
 ```
-pip install deep-sort-realtime
-```
-
-## How to run
-
-### Frame-track
-Arguments configuration
-1. `source` = [string] video source directory or file
-2. `model` = [string] yolo model used (.pt)
-3. `classes` = [int] class_id that want to be processed
-4. `gap` = [float] time gap (seconds)
-5. `conf` = [float] the confidence threshold of object detected
-7. `nosave` = don't save the video output file, only label
-8. `show` = show preview window
-
-Example command for frame-track:
-```
-python frame-track.py --model yolov8n.pt --source ../test/ --nosave --classes 5 6 --conf 0.5 --gap 3.0 --nosave
-```
-The command above will track and count class_id 5 and 6 of all .mp4 videos inside test folder in batch processing. The output videos will not be saved and the preview window will not be shown.
-
-### Bytetrack and Botsort
-Arguments configuration
-1. `source` = [string] video source directory or file
-2. `model` = [string] yolo model used (.pt)
-3. `track` = activate tracking
-4. `count` = activate counting
-5. `batch` = activate batch processing (no streaming)
-6. `classes` = [int] class_id that want to be processed
-7. `nosave` = don't save the video output file, only label
-
-Program configuration
-1. `CONF_THRESHOLD` = [float] the confidence threshold of object detected
-2. `MIN_HISTORY` = [int] how many minimum frames the object must appear before start being tracked.
-
-Example command for bytetrack:
-```
-python bytetrack.py --model yolov8n.pt --source ../test/ --track --count --batch --nosave --classes 0 1 2 3 4 5 6
-```
-Example command for botsort:
-```
-python botsort.py --model yolov8n.pt --source ../test/ --track --count --batch --nosave --classes 0 1 2 3 4 5 6
-```
-The commands above will track and count class_id 0 to 6 of all .mp4 videos inside test folder in batch processing. The output videos will not be saved.
-
-### Deepsort
-Arguments configuration
-1. `source` = [string] video source directory or file
-2. `model` = [string] yolo model used (.pt)
-3. `track` = activate tracking
-4. `count` = activate counting
-5. `batch` = activate batch processing (no streaming)
-6. `classes` = [int] class_id that want to be processed
-7. `nosave` = don't save the video output file, only label
-8. `conf` = [float]the confidence threshold of object detected
-
-Example command for deepsort:
-```
-python deepsort.py --model yolov8n.pt --source ../test/ --track --count --batch --nosave --classes 0 1 2 3 4 5 6 --conf 0.5
-```
-### Strongsort
-1. `source` = [string] video source directory or file
-2. `model` = [string] yolo model used (.pt)
-3. `count` = activate counting
-4. `batch` = activate batch processing (no streaming)
-5. `classes` = [int] class_id that want to be processed
-6. `nosave` = don't save the video output file, only label
-7. `conf` = [float]the confidence threshold of object detected
-
-Example command for strongsort:
-```
-python strongsort.py --model yolov8n.pt --source ../test/ --count --batch --nosave --classes 0 1 2 3 4 5 6 --conf 0.5
-```
+python main.py --algo gap --source my_video.mp4 --gap 5.0
