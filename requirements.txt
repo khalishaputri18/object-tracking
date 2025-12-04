@@ -1,0 +1,9 @@
+opencv-python>=4.8.0
+numpy>=1.23.5
+ultralytics>=8.0.0
+deep-sort-realtime>=1.3.2
+# boxmot is required for StrongSort. 
+# If you have trouble installing boxmot via pip, refer to their GitHub.
+boxmot>=10.0.40  
+lapx>=0.5.5
+shapely>=2.0.1
